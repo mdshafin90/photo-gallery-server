@@ -54,43 +54,6 @@ async function run() {
             res.send(result);
         })
 
-        // mongodb create operation
-        app.post('/photos', async (req, res) => {
-            const newPhoto = req.body;
-            // console.log(newPhoto);
-            const result = await photoCollection.insertOne(newPhoto);
-            res.send(result);
-        });
-
-        // mongodb update one operation
-        app.put('/photos/:id', async (req, res) => {
-            const id = req.params.id;
-            const filter = { _id: new ObjectId(id) }
-            const options = { upsert: true };
-            const updatePhoto = req.body;
-
-            const photo = {
-                $set: {
-                    fruitName: updatePhoto.fruitName,
-                    brandName: updatePhoto.brandName,
-                    fruitType: updatePhoto.fruitType,
-                    fruitRating: updatePhoto.fruitRating,
-                    fruitPhoto: updatePhoto.fruitPhoto
-                }
-            };
-
-            const result = await photoCollection.updateOne(filter, photo, options);
-            res.send(result);
-        });
-
-        // mongodb delete operation
-        app.delete('/photos/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: new ObjectId(id) }
-            const result = await photoCollection.deleteOne(query);
-            res.send(result)
-        });
-
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
