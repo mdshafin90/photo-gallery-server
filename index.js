@@ -78,6 +78,16 @@ async function run() {
                     fruitPhoto: updatePhoto.fruitPhoto
                 }
             }
+            const result = await photoCollection.updateOne(filter, photo, options);
+            res.send(result);
+        });
+
+        // mongodb delete operation
+        app.delete('/photos/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await photoCollection.deleteOne(query);
+            res.send(result)
         });
 
         // Send a ping to confirm a successful connection
